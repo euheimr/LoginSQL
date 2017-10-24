@@ -1,6 +1,6 @@
 ﻿namespace LoginSQL
 {
-    partial class Form1
+    partial class frmMain
     {
         /// <summary>
         /// Required designer variable.
@@ -28,12 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.btnLogout = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // btnLogout
+            // 
+            this.btnLogout.Location = new System.Drawing.Point(197, 226);
+            this.btnLogout.Name = "btnLogout";
+            this.btnLogout.Size = new System.Drawing.Size(75, 23);
+            this.btnLogout.TabIndex = 0;
+            this.btnLogout.Text = "Logout";
+            this.btnLogout.UseVisualStyleBackColor = true;
+            // 
+            // frmMain
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.btnLogout);
+            this.Name = "frmMain";
+            this.Text = "frmMain";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Button btnLogout;
     }
 }
-
