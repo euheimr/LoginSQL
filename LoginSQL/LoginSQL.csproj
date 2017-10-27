@@ -96,6 +96,10 @@
       <Project>{e886ea98-25cb-44da-9adf-b394afe18fb3}</Project>
       <Name>LoginLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PassHash\PasswordHash.csproj">
+      <Project>{7e27afdf-e6a1-48a8-a47f-003f641ab71e}</Project>
+      <Name>PasswordHash</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

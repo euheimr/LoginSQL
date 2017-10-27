@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 
+
 namespace LoginLib
 {
-    public class login
+    public class Login
     {
 
         public static DataTable GetLogin(string cnnString, string loginSelect, int timeout = 20)
@@ -34,35 +35,119 @@ namespace LoginLib
             }
         }
 
-        public static bool SelectLogin(string cnnString, string username, string password, string loginSelect, int timeout = 20)
+        //This is for using a username and password on frmLogin.
+        public static bool SelectLogin(string cnnString, string username, string password, string tableName, int timeout = 15)
         {
-            using (SqlConnection cnn = new SqlConnection(cnnString))
+            using (SqlConnection conn = new SqlConnection(cnnString))
             {
-                SqlDataAdapter da = new SqlDataAdapter();
-                cnn.ConnectionString = cnnString;
                 bool isLoggedIn = false;
-
-                try
+                using (SqlDataAdapter da = new SqlDataAdapter())
                 {
-                    da.SelectCommand = new SqlCommand()
+
+                    try
                     {
-                        Connection = cnn,
-                        CommandText = "SELECT username, password FROM loginTest WHERE username=" + username + ", password=" + password + ";",
-                        CommandTimeout = timeout
-                    };
-                }
-                catch (Exception ex)
-                {
-                    isLoggedIn = false;
-                    //TODO
+                        conn.Open();
+                        da.SelectCommand = new SqlCommand()
+                        {
+                            Connection = conn,
+                            CommandText = "SELECT username, password FROM " + @tableName + "WHERE username =" + @username + " AND password =" + @password + ";",
+                            CommandTimeout = timeout
+
+                        };
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+
+                        if (dt.Rows[0]["username"].ToString().Trim() == username && dt.Rows[0]["password"].ToString().Trim() == password)
+                        {
+                            Login.SetLogin(cnnString, username, password, tableName);
+                            //after this completes, this method will finish then btnLogin_Click method continues to run
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        isLoggedIn = false;
+                        //lblStatus.Text = "Cannot connect.\n" + ex.Message;
+                    }
+
+                    return isLoggedIn;
                 }
 
-                return isLoggedIn;
             }
         }
 
+        //only use SetIsLoggedIn with SelectLogin
+        public static bool SetLogin(string cnnString, string username, string password, string tableName, int timeout = 15)
+        {
+            
+            using (SqlConnection conn = new SqlConnection(cnnString))
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter())
+                {
+                    try
+                    {
+                        conn.Open();
+                        da.SelectCommand = new SqlCommand()
+                        {
+                            Connection = conn,
+                            CommandText = "UPDATE " + tableName + " SET [isLoggedIn] = 1;",
+                            CommandTimeout = timeout
+                             
+                        };
+
+                    }
+                    
+
+                    catch (Exception ex)
+                    {
+                        return false; 
+                    }
+
+                    return true;
+                }
+            }
+
+           
+        }
         
+
+
+        public static bool SetLogout(string cnnString, string tableName, int timeout = 15)
+        {
+            using (SqlConnection conn = new SqlConnection(cnnString))
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter())
+                {
+                    try
+                    {
+                        
+                    }
+
+                    catch (Exception ex)
+                    {
+
+                    }
+
+
+
+                }
+            }
+        }
+
+
+
+
+
+
+
+
 
 
     }
 }
+
+
+
+
+
+        
+ 

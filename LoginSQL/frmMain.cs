@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AppGlobals;
+using LoginLib;
 
 namespace LoginSQL
 {
@@ -15,6 +17,14 @@ namespace LoginSQL
         public frmMain()
         {
             InitializeComponent();
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            if (Global.LoggedIn)
+            {
+                Login.SetLogout(Global.conn, Global.tableName);
+            }
         }
     }
 }

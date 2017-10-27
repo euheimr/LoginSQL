@@ -38,6 +38,7 @@
             this.Waiting = new System.Windows.Forms.StatusStrip();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblServerIP = new System.Windows.Forms.Label();
+            this.lblCnnString = new System.Windows.Forms.Label();
             this.Waiting.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -130,6 +131,14 @@
             this.lblServerIP.Text = ".";
             this.lblServerIP.Click += new System.EventHandler(this.lblServerIP_Click);
             // 
+            // lblCnnString
+            // 
+            this.lblCnnString.AutoSize = true;
+            this.lblCnnString.Location = new System.Drawing.Point(16, 30);
+            this.lblCnnString.Name = "lblCnnString";
+            this.lblCnnString.Size = new System.Drawing.Size(0, 13);
+            this.lblCnnString.TabIndex = 8;
+            // 
             // frmLogin
             // 
             this.AcceptButton = this.btnLogin;
@@ -137,6 +146,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnExit;
             this.ClientSize = new System.Drawing.Size(293, 172);
+            this.Controls.Add(this.lblCnnString);
             this.Controls.Add(this.lblServerIP);
             this.Controls.Add(this.Waiting);
             this.Controls.Add(this.tbPassword);
@@ -168,6 +178,7 @@
         private System.Windows.Forms.StatusStrip Waiting;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.Label lblServerIP;
+        private System.Windows.Forms.Label lblCnnString;
     }
 }
 
