@@ -99,7 +99,10 @@ namespace LoginLib
 
                     catch (Exception ex)
                     {
-                        return false; 
+                        //we want the method to return false if it fails
+                        return false;
+                        //propagate the Exception to the method that calls this method
+                        throw;
                     }
 
                     return true;
@@ -119,16 +122,24 @@ namespace LoginLib
                 {
                     try
                     {
-                        
+                        conn.Open();
+                        da.SelectCommand = new SqlCommand()
+                        {
+                            Connection = conn,
+                            CommandText = "UPDATE " + tableName + " SET [isLoggedIn] = 0;",
+                            CommandTimeout = timeout
+                        };
                     }
 
                     catch (Exception ex)
                     {
-
+                        //propagate to the method that calls this method
+                        return false;
+                        throw;
                     }
 
 
-
+                    return true;
                 }
             }
         }

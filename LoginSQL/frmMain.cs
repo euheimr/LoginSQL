@@ -23,7 +23,16 @@ namespace LoginSQL
         {
             if (Global.LoggedIn)
             {
-                Login.SetLogout(Global.conn, Global.tableName);
+                try
+                {
+                    //the SetLogout method connects to the MSSQL server and changes the LoggedIn flag to 0 (false)
+                    Login.SetLogout(Global.conn, Global.tableName);
+                    Global.LoggedIn = false;
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
         }
     }
