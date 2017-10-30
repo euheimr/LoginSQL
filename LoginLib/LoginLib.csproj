@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\App\AppGlobals.csproj">
-      <Project>{B6899D49-B291-4D5F-B6BA-42545E1B892D}</Project>
+      <Project>{b6899d49-b291-4d5f-b6ba-42545e1b892d}</Project>
       <Name>AppGlobals</Name>
     </ProjectReference>
     <ProjectReference Include="..\PassHash\PasswordHash.csproj">

@@ -1,17 +1,11 @@
-﻿using AppGlobals;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
-using System.Data.Sql;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using LoginLib;
 using PasswordHash;
+using AppGlobals;
 
 namespace LoginSQL
 {
