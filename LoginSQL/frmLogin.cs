@@ -43,6 +43,7 @@ namespace LoginSQL
                 {
                     if (!Global.LoggedIn)
                     {
+                        
                         lblStatus.ForeColor = Color.Blue;
                         lblStatus.Text = "Logging in..";
 
@@ -58,28 +59,36 @@ namespace LoginSQL
                         //sets the IsLoggedIn flag in MSSQL server column to 1 (true)
                         Global.LoggedIn = true;
 
-                        }
                     }
+                }
                        
-                }
-                catch (Exception ex)
-                {
+            }
+               
+            catch (SqlException SqlEx)
+            {
                 lblStatus.ForeColor = Color.Red;
-                lblStatus.Text = "Error. " + ex.Message + "";
+                lblStatus.Text = "Sql error: " + SqlEx.Message + "";
+                return;
+            }
 
-                }
-
+            catch (Exception ex)
+            {
+                lblStatus.ForeColor = Color.Red;
+                lblStatus.Text = "Error: " + ex.Message + "";
+                return;
+            }
+            
             if (Global.LoggedIn)
             {
                 lblStatus.ForeColor = Color.Violet;
                 lblStatus.Text = "Logged in";
+                //show the main form
+                var mainForm = new frmMain();
+                mainForm.Show();
             }
             
-            //show the main form
-            var mainForm = new frmMain();
-            mainForm.Show();
-
-            Global.usrPass = tbPassword.Text.Trim();
+            
+            
             Cursor.Current = Cursors.Arrow;
         } //end of btnLogin_Click
 

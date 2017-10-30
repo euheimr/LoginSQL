@@ -67,9 +67,7 @@ namespace LoginLib
                                     CommandTimeout = timeout
 
                                 };
-                                //set the global
-                                
-                                
+                                //fill the datatable with the data that was returned from SELECT
                                 DataTable dt = new DataTable();
                                 da.Fill(dt);
 
@@ -79,19 +77,14 @@ namespace LoginLib
                             }
                             
                             
-
-                            
-                            
                         }
                         
                     }
                     catch (Exception ex)
                     {
-                        //TODO create an invalid record Exception
-
-
+                        //if we run into an issue, we don't want the program to think we are logged in
                         Global.LoggedIn = false;
-                        //lblStatus.Text = "Cannot connect.\n" + ex.Message;
+                        //toss this to the calling method to handle the exceptions
                         throw;
                     }
 
@@ -128,6 +121,10 @@ namespace LoginLib
                                 Global.LoggedIn = false;
                                 return true;
                             }
+                            else
+                            {
+                                return false;
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -151,18 +148,14 @@ namespace LoginLib
 
             try
             {
-                if (username.Trim() == Global.usrAcc)
+                if (username.Trim() == Global.usrAcc && password == Global.usrPass)
                 {
-                    return false;
-                }
-                else if (password == Global.usrPass)
-                {
-                    return false;
-
+                    return true;
                 }
                 else
                 {
-                    return true;
+                    //if both or either do not match, return false (login is invalid)
+                    return false;
                 }
             }
             catch (Exception ex)
