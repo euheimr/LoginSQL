@@ -11,7 +11,7 @@ namespace AppGlobals
 
         //TODO - info for the connection and connection types
         public static string DB = string.Empty;
-        public static string serverName = "(local)"; //test server TSQL
+        public static string serverName = "(local)"; //test server MSSQL
         public static string serverInstance = "MSSQLSERVER";
         public static string tableName = "tbl_login";
         public static string dbName = "loginTest";
@@ -24,7 +24,7 @@ namespace AppGlobals
 
         //SQL credentials
         public static string SqlUserId = "sa";
-        public static string SqlPass = "JakErs4246";
+        public static string SqlPass = "xfl4ever";
 
         //Connection string
         //TODO

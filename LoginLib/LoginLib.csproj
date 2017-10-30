@@ -43,5 +43,11 @@
     <Compile Include="Login.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\App\AppGlobals.csproj">
+      <Project>{B6899D49-B291-4D5F-B6BA-42545E1B892D}</Project>
+      <Name>AppGlobals</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

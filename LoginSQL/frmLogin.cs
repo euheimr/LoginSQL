@@ -45,33 +45,40 @@ namespace LoginSQL
                 //create connection
                 using (SqlConnection cnn = new SqlConnection(Global.conn))
                 {
-                    lblStatus.ForeColor = Color.Blue;
-                    lblStatus.Text = "Logging in..";
+                    if (!Global.LoggedIn)
+                    {
+                        lblStatus.ForeColor = Color.Blue;
+                        lblStatus.Text = "Logging in..";
 
-                    SqlDataAdapter da = new SqlDataAdapter();
-                    //run an SQL query to grab the info, then compare the info to the returned data in that table
-                    Login.SelectLogin(Global.conn, tbUsername.Text.Trim(), tbPassword.Text.Trim(), Global.tableName);
+                        SqlDataAdapter da = new SqlDataAdapter();
+                        //run an SQL query to grab the info, then compare the info to the returned data in that table
+                        Login.SelectLogin(Global.conn, tbUsername.Text.Trim(), tbPassword.Text.Trim(), Global.tableName);
 
-                    //sets the IsLoggedIn flag in MSSQL server column to 1 (true)
-                    Login.SetLogin(Global.conn, tbUsername.Text.Trim(), tbPassword.Text.Trim(), Global.tableName);
+                        //this will tell me how many rows are selected on SelectLogin. This will then display on the frmLogin as a number
+                        //between buttons Exit and Login. It -should- be 1, as we are SELECTing one record
+                        lblRowsCount.Text = Login.rowCount;
 
-                    //set the global variable to true, since we have successfully logged in
-                    Global.LoggedIn = true;
+                        //sets the IsLoggedIn flag in MSSQL server column to 1 (true)
+                        Global.LoggedIn = true;
 
-
-                } //end using
-
-            }
-            catch (Exception ex)
-            {
+                        }
+                    }
+                       
+                }
+                catch (Exception ex)
+                {
                 lblStatus.ForeColor = Color.Red;
-                lblStatus.Text = "Error. " + ex.Message;
+                lblStatus.Text = "Error. " + ex.Message + "";
+
+                }
+
+            if (Global.LoggedIn)
+            {
+                lblStatus.ForeColor = Color.Violet;
+                lblStatus.Text = "Logged in";
             }
 
-
-
-            lblStatus.ForeColor = Color.Yellow;
-            lblStatus.Text = "Logged in";
+            
         } //end of btnLogin_Click
 
         private void btnExit_Click(object sender, EventArgs e)

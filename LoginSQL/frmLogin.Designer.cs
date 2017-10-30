@@ -39,6 +39,7 @@
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblServerIP = new System.Windows.Forms.Label();
             this.lblCnnString = new System.Windows.Forms.Label();
+            this.lblRowsCount = new System.Windows.Forms.Label();
             this.Waiting.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -112,7 +113,7 @@
             this.lblStatus});
             this.Waiting.Location = new System.Drawing.Point(0, 150);
             this.Waiting.Name = "Waiting";
-            this.Waiting.Size = new System.Drawing.Size(293, 22);
+            this.Waiting.Size = new System.Drawing.Size(494, 22);
             this.Waiting.TabIndex = 7;
             // 
             // lblStatus
@@ -139,13 +140,22 @@
             this.lblCnnString.Size = new System.Drawing.Size(0, 13);
             this.lblCnnString.TabIndex = 8;
             // 
+            // lblRowsCount
+            // 
+            this.lblRowsCount.AutoSize = true;
+            this.lblRowsCount.Location = new System.Drawing.Point(100, 121);
+            this.lblRowsCount.Name = "lblRowsCount";
+            this.lblRowsCount.Size = new System.Drawing.Size(0, 13);
+            this.lblRowsCount.TabIndex = 9;
+            // 
             // frmLogin
             // 
             this.AcceptButton = this.btnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnExit;
-            this.ClientSize = new System.Drawing.Size(293, 172);
+            this.ClientSize = new System.Drawing.Size(494, 172);
+            this.Controls.Add(this.lblRowsCount);
             this.Controls.Add(this.lblCnnString);
             this.Controls.Add(this.lblServerIP);
             this.Controls.Add(this.Waiting);
@@ -179,6 +189,7 @@
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.Label lblServerIP;
         private System.Windows.Forms.Label lblCnnString;
+        private System.Windows.Forms.Label lblRowsCount;
     }
 }
 

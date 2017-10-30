@@ -5,12 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
+using AppGlobals;
+
 
 
 namespace LoginLib
 {
     public class Login
     {
+        //Testing for SelectLogin's datatable row count
+        public static string rowCount;
+
 
         public static DataTable GetLogin(string cnnString, string loginSelect, int timeout = 20)
         {
@@ -40,81 +45,56 @@ namespace LoginLib
         {
             using (SqlConnection conn = new SqlConnection(cnnString))
             {
-                bool isLoggedIn = false;
+                
                 using (SqlDataAdapter da = new SqlDataAdapter())
                 {
 
                     try
                     {
-                        conn.Open();
-                        da.SelectCommand = new SqlCommand()
+                        if (!Global.LoggedIn)
                         {
-                            Connection = conn,
-                            CommandText = "SELECT username, password FROM " + @tableName + "WHERE username =" + @username + " AND password =" + @password + ";",
-                            CommandTimeout = timeout
+                            conn.Open();
+                            da.SelectCommand = new SqlCommand()
+                            {
+                                //TODO
+                                // get password from this method's "password" parameter, then hash it
 
-                        };
-                        DataTable dt = new DataTable();
-                        da.Fill(dt);
+                                //send all that info to see if the server finds it
+                                Connection = conn,
+                                CommandText = @"SELECT username, password FROM " + tableName + " WHERE username = '" + username.Trim() + "' AND password = '" + password.Trim() + "'; " +
+                                @"SELECT username, password FROM " + tableName + " WHERE username = '" + username.Trim() + "' AND password = '" + password.Trim() + "'; " +
+                            "UPDATE " + tableName + " SET [isLoggedIn] = 1;",
+                                CommandTimeout = timeout
 
-                        if (dt.Rows[0]["username"].ToString().Trim() == username && dt.Rows[0]["password"].ToString().Trim() == password)
-                        {
-                            Login.SetLogin(cnnString, username, password, tableName);
-                            //after this completes, this method will finish then btnLogin_Click method continues to run
+                            };
+                            DataTable dt = new DataTable();
+                            da.Fill(dt);
+
+                            //This is to test if there are rows in dt, changes the variable declared at the top of this library
+                            rowCount = dt.Rows.Count.ToString();
+                            
                         }
+                        
                     }
                     catch (Exception ex)
                     {
-                        isLoggedIn = false;
+                        //TODO create an invalid record Exception
+
+
+                        Global.LoggedIn = false;
                         //lblStatus.Text = "Cannot connect.\n" + ex.Message;
-                    }
-
-                    return isLoggedIn;
-                }
-
-            }
-        }
-
-        //only use SetIsLoggedIn with SelectLogin
-        public static bool SetLogin(string cnnString, string username, string password, string tableName, int timeout = 15)
-        {
-            
-            using (SqlConnection conn = new SqlConnection(cnnString))
-            {
-                using (SqlDataAdapter da = new SqlDataAdapter())
-                {
-                    try
-                    {
-                        conn.Open();
-                        da.SelectCommand = new SqlCommand()
-                        {
-                            Connection = conn,
-                            CommandText = "UPDATE " + tableName + " SET [isLoggedIn] = 1;",
-                            CommandTimeout = timeout
-                             
-                        };
-
-                    }
-                    
-
-                    catch (Exception ex)
-                    {
-                        //we want the method to return false if it fails
-                        return false;
-                        //propagate the Exception to the method that calls this method
                         throw;
                     }
 
-                    return true;
+                    return Global.LoggedIn;
                 }
+
             }
-
-           
         }
-        
+      
 
 
-        public static bool SetLogout(string cnnString, string tableName, int timeout = 15)
+        public static bool SetLogout(string cnnString, string username, string password, string tableName, int timeout = 15)
         {
             using (SqlConnection conn = new SqlConnection(cnnString))
             {
@@ -126,7 +106,9 @@ namespace LoginLib
                         da.SelectCommand = new SqlCommand()
                         {
                             Connection = conn,
-                            CommandText = "UPDATE " + tableName + " SET [isLoggedIn] = 0;",
+                            CommandText = @"SELECT username, password FROM " + tableName + " WHERE username = '" + username.Trim() + "' AND password = '" + password.Trim() + "'; " +
+                                @"SELECT username, password FROM " + tableName + " WHERE username = '" + username.Trim() + "' AND password = '" + password.Trim() + "'; " +
+                            "UPDATE " + tableName + " SET [isLoggedIn] = 0;",
                             CommandTimeout = timeout
                         };
                     }
