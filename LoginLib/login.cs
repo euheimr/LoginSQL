@@ -57,21 +57,22 @@ namespace LoginLib
                             // get password from this method's "password" parameter, then hash it
                             using (MD5 md5Hash = MD5.Create())
                             {
-                                Global.usrPass = Hash.GetMD5Hash(password);
+                                string pwd = Hash.GetMD5Hash(password);
+                                Global.usrPass = pwd;
 
                                 conn.Open();
                                 da.SelectCommand = new SqlCommand()
                                 {
                                     //send all that info to see if the server finds it
                                     Connection = conn,
-                                    CommandText = @"SELECT username, password FROM " + tableName + " WHERE username = '" + username.Trim() + "' AND password = '" + Global.usrPass.Trim() + "'; " +
-                                    @"SELECT username, password FROM " + tableName + " WHERE username = '" + username.Trim() + "' AND password = '" + password.Trim() + "'; " +
+                                    CommandText = @"SELECT username, password FROM " + tableName + " WHERE username = '" + username.Trim() + "' AND password = '" + pwd + "'; " +
                                     //update the isLoggedIn field on this selected username
                                     "UPDATE " + tableName + " SET [isLoggedIn] = 1;",
                                     CommandTimeout = timeout
 
                                 };
-
+                                //set the global
+                                
                                 
                                 DataTable dt = new DataTable();
                                 da.Fill(dt);
@@ -112,24 +113,29 @@ namespace LoginLib
             {
                 using (SqlDataAdapter da = new SqlDataAdapter())
                 {
-                    try
+                    if (Global.LoggedIn)
                     {
-                        conn.Open();
-                        da.SelectCommand = new SqlCommand()
+                        try
                         {
-                            Connection = conn,
-                            CommandText = @"SELECT username, password FROM " + tableName + " WHERE username = '" + username.Trim() + "' AND password = '" + password.Trim() + "'; " +
-                                @"SELECT username, password FROM " + tableName + " WHERE username = '" + username.Trim() + "' AND password = '" + password.Trim() + "'; " +
-                            "UPDATE " + tableName + " SET [isLoggedIn] = 0;",
-                            CommandTimeout = timeout
-                        };
-                    }
+                            string pwd = Hash.GetMD5Hash(password);
+                            Global.usrPass = pwd;
+                            conn.Open();
+                            da.SelectCommand = new SqlCommand()
+                            {
+                                //send all that info to see if the server finds it
+                                Connection = conn,
+                                //update the isLoggedIn field on this selected username
+                                CommandText = @"UPDATE " + tableName + " SET isLoggedIn = 0 WHERE username = " + "'" + username + "'" + " AND password = " + "'" + Global.usrPass + "'" + "; ",
+                                CommandTimeout = timeout
+                            };
+                        }
 
-                    catch (Exception ex)
-                    {
-                        //propagate to the method that calls this method
-                        return false;
-                        throw;
+                        catch (Exception ex)
+                        {
+                            //propagate to the method that calls this method
+                            return false;
+                            throw;
+                        }
                     }
 
 
@@ -137,23 +143,7 @@ namespace LoginLib
                 }
             }
         }
-
-        //this is used for the btntCreateHash, returns a password in a desired textbox
-        public static string CreateHash(string password)
-        {
-            using (MD5 md5Hash = MD5.Create(password))
-            {
-                //Encode
-                Global.usrPass = Hash.GetMD5Hash(password);
-            }
-
-                return Global.usrPass;
-        }
-
-
-
-
-
+        
 
 
     }

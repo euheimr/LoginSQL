@@ -43,6 +43,7 @@
             this.btnCreate = new System.Windows.Forms.Button();
             this.tbPassHash = new System.Windows.Forms.TextBox();
             this.btnCopy = new System.Windows.Forms.Button();
+            this.lblHash = new System.Windows.Forms.Label();
             this.Waiting.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -100,6 +101,7 @@
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.Size = new System.Drawing.Size(203, 20);
             this.tbPassword.TabIndex = 2;
+            this.tbPassword.UseSystemPasswordChar = true;
             this.tbPassword.WordWrap = false;
             // 
             // lblCnn
@@ -115,9 +117,9 @@
             // 
             this.Waiting.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatus});
-            this.Waiting.Location = new System.Drawing.Point(0, 170);
+            this.Waiting.Location = new System.Drawing.Point(0, 214);
             this.Waiting.Name = "Waiting";
-            this.Waiting.Size = new System.Drawing.Size(519, 22);
+            this.Waiting.Size = new System.Drawing.Size(478, 22);
             this.Waiting.TabIndex = 7;
             // 
             // lblStatus
@@ -154,7 +156,7 @@
             // 
             // btnCreate
             // 
-            this.btnCreate.Location = new System.Drawing.Point(322, 111);
+            this.btnCreate.Location = new System.Drawing.Point(97, 176);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(128, 23);
             this.btnCreate.TabIndex = 10;
@@ -164,14 +166,17 @@
             // 
             // tbPassHash
             // 
-            this.tbPassHash.Location = new System.Drawing.Point(287, 86);
+            this.tbPassHash.Location = new System.Drawing.Point(78, 150);
             this.tbPassHash.Name = "tbPassHash";
-            this.tbPassHash.Size = new System.Drawing.Size(163, 20);
+            this.tbPassHash.ReadOnly = true;
+            this.tbPassHash.Size = new System.Drawing.Size(203, 20);
             this.tbPassHash.TabIndex = 11;
+            this.tbPassHash.TabStop = false;
+            this.tbPassHash.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btnCopy
             // 
-            this.btnCopy.Location = new System.Drawing.Point(456, 84);
+            this.btnCopy.Location = new System.Drawing.Point(231, 176);
             this.btnCopy.Name = "btnCopy";
             this.btnCopy.Size = new System.Drawing.Size(50, 23);
             this.btnCopy.TabIndex = 12;
@@ -179,13 +184,23 @@
             this.btnCopy.UseVisualStyleBackColor = true;
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
+            // lblHash
+            // 
+            this.lblHash.AutoSize = true;
+            this.lblHash.Location = new System.Drawing.Point(35, 153);
+            this.lblHash.Name = "lblHash";
+            this.lblHash.Size = new System.Drawing.Size(35, 13);
+            this.lblHash.TabIndex = 13;
+            this.lblHash.Text = "Hash:";
+            // 
             // frmLogin
             // 
             this.AcceptButton = this.btnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnExit;
-            this.ClientSize = new System.Drawing.Size(519, 192);
+            this.ClientSize = new System.Drawing.Size(478, 236);
+            this.Controls.Add(this.lblHash);
             this.Controls.Add(this.btnCopy);
             this.Controls.Add(this.tbPassHash);
             this.Controls.Add(this.btnCreate);
@@ -217,7 +232,6 @@
         private System.Windows.Forms.Label lblUsername;
         private System.Windows.Forms.Label lblPassword;
         private System.Windows.Forms.TextBox tbUsername;
-        private System.Windows.Forms.TextBox tbPassword;
         private System.Windows.Forms.Label lblCnn;
         private System.Windows.Forms.StatusStrip Waiting;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
@@ -227,6 +241,8 @@
         private System.Windows.Forms.Button btnCreate;
         private System.Windows.Forms.TextBox tbPassHash;
         private System.Windows.Forms.Button btnCopy;
+        private System.Windows.Forms.Label lblHash;
+        public System.Windows.Forms.TextBox tbPassword;
     }
 }
 

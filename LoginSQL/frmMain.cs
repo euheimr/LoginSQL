@@ -21,6 +21,9 @@ namespace LoginSQL
                     //the SetLogout method connects to the MSSQL server and changes the LoggedIn flag to 0 (false)
                     Login.SetLogout(Global.conn, Global.usrAcc, Global.usrPass, Global.tableName);
                     Global.LoggedIn = false;
+
+                    this.Close();
+
                 }
                 catch (Exception ex)
                 {

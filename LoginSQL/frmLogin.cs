@@ -59,6 +59,7 @@ namespace LoginSQL
                         //this will tell me how many rows are selected on SelectLogin. This will then display on the frmLogin as a number
                         //between buttons Exit and Login. It -should- be 1, as we are SELECTing one record
                         lblRowsCount.Text = Login.rowCount;
+                        Global.usrAcc = tbUsername.Text.Trim();
 
                         //sets the IsLoggedIn flag in MSSQL server column to 1 (true)
                         Global.LoggedIn = true;
@@ -79,7 +80,12 @@ namespace LoginSQL
                 lblStatus.ForeColor = Color.Violet;
                 lblStatus.Text = "Logged in";
             }
+            
+            //show the main form
+            var mainForm = new frmMain();
+            mainForm.Show();
 
+            Global.usrPass = tbPassword.Text.Trim();
             Cursor.Current = Cursors.Arrow;
         } //end of btnLogin_Click
 
@@ -101,10 +107,20 @@ namespace LoginSQL
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
-            string pw = tbPassword.Text;
-            tbPassHash.Text = Hash.GetMD5Hash(pw);
-            Global.usrPass = pw;
-
+            try
+            {
+                if (!String.IsNullOrWhiteSpace(tbPassword.Text))
+                {
+                    string pw = tbPassword.Text;
+                    tbPassHash.Text = Hash.GetMD5Hash(pw);
+                }
+                
+            } 
+            catch (Exception ex)
+            {
+                throw;
+            }
+            
         }
 
         private void btnCopy_Click(object sender, EventArgs e)

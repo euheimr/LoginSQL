@@ -29,7 +29,7 @@ namespace PasswordHash
 
             
             //return stringbuilder's hex string
-            return sb.ToString();
+            return sb.ToString().Trim();
             
         }
 
