@@ -117,33 +117,69 @@ namespace LoginLib
                     {
                         try
                         {
-                            string pwd = Hash.GetMD5Hash(password);
-                            Global.usrPass = pwd;
-                            conn.Open();
-                            da.SelectCommand = new SqlCommand()
+                            //makes sure that the username and password matches the data pulled from the DB
+                            if (ValidLogin(username, password))
                             {
-                                //send all that info to see if the server finds it
-                                Connection = conn,
-                                //update the isLoggedIn field on this selected username
-                                CommandText = @"UPDATE " + tableName + " SET isLoggedIn = 0 WHERE username = " + "'" + username + "'" + " AND password = " + "'" + Global.usrPass + "'" + "; ",
-                                CommandTimeout = timeout
-                            };
+                                conn.Open();
+                                da.SelectCommand = new SqlCommand()
+                                {
+                                    //send all that info to see if the server finds it
+                                    Connection = conn,
+                                    //update the isLoggedIn field on this selected username
+                                    CommandText = @"UPDATE " + tableName + " SET isLoggedIn = 0 WHERE username = " + "'" + username + "'" + " AND password = " + "'" + Global.usrPass + "'" + "; ",
+                                    CommandTimeout = timeout
+                                };
+                                Global.LoggedIn = false;
+                                return true;
+                            }
                         }
-
                         catch (Exception ex)
                         {
                             //propagate to the method that calls this method
-                            return false;
+                            return Global.LoggedIn;
                             throw;
                         }
+                        
                     }
+                    
+                }
+                
+            }
+            
+            return Global.LoggedIn;
+        }
+        
 
+        public static bool ValidLogin(string username, string password)
+        {
 
+            try
+            {
+                if (username.Trim() == Global.usrAcc)
+                {
+                    return false;
+                }
+                else if (password == Global.usrPass)
+                {
+                    return false;
+
+                }
+                else
+                {
                     return true;
                 }
             }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
-        
+
+
+
+
+
 
 
     }

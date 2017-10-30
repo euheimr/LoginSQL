@@ -27,7 +27,7 @@ namespace LoginSQL
                 }
                 catch (Exception ex)
                 {
-
+                    throw;
                 }
             }
         }
