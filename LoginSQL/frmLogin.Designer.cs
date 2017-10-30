@@ -40,6 +40,9 @@
             this.lblServerIP = new System.Windows.Forms.Label();
             this.lblCnnString = new System.Windows.Forms.Label();
             this.lblRowsCount = new System.Windows.Forms.Label();
+            this.btnCreate = new System.Windows.Forms.Button();
+            this.tbPassHash = new System.Windows.Forms.TextBox();
+            this.btnCopy = new System.Windows.Forms.Button();
             this.Waiting.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,6 +59,7 @@
             // 
             // btnLogin
             // 
+            this.btnLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLogin.Location = new System.Drawing.Point(206, 112);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(75, 23);
@@ -111,9 +115,9 @@
             // 
             this.Waiting.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatus});
-            this.Waiting.Location = new System.Drawing.Point(0, 150);
+            this.Waiting.Location = new System.Drawing.Point(0, 170);
             this.Waiting.Name = "Waiting";
-            this.Waiting.Size = new System.Drawing.Size(494, 22);
+            this.Waiting.Size = new System.Drawing.Size(519, 22);
             this.Waiting.TabIndex = 7;
             // 
             // lblStatus
@@ -148,13 +152,43 @@
             this.lblRowsCount.Size = new System.Drawing.Size(0, 13);
             this.lblRowsCount.TabIndex = 9;
             // 
+            // btnCreate
+            // 
+            this.btnCreate.Location = new System.Drawing.Point(322, 111);
+            this.btnCreate.Name = "btnCreate";
+            this.btnCreate.Size = new System.Drawing.Size(128, 23);
+            this.btnCreate.TabIndex = 10;
+            this.btnCreate.Text = "Create Password Hash";
+            this.btnCreate.UseVisualStyleBackColor = true;
+            this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
+            // 
+            // tbPassHash
+            // 
+            this.tbPassHash.Location = new System.Drawing.Point(287, 86);
+            this.tbPassHash.Name = "tbPassHash";
+            this.tbPassHash.Size = new System.Drawing.Size(163, 20);
+            this.tbPassHash.TabIndex = 11;
+            // 
+            // btnCopy
+            // 
+            this.btnCopy.Location = new System.Drawing.Point(456, 84);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(50, 23);
+            this.btnCopy.TabIndex = 12;
+            this.btnCopy.Text = "Copy";
+            this.btnCopy.UseVisualStyleBackColor = true;
+            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+            // 
             // frmLogin
             // 
             this.AcceptButton = this.btnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnExit;
-            this.ClientSize = new System.Drawing.Size(494, 172);
+            this.ClientSize = new System.Drawing.Size(519, 192);
+            this.Controls.Add(this.btnCopy);
+            this.Controls.Add(this.tbPassHash);
+            this.Controls.Add(this.btnCreate);
             this.Controls.Add(this.lblRowsCount);
             this.Controls.Add(this.lblCnnString);
             this.Controls.Add(this.lblServerIP);
@@ -190,6 +224,9 @@
         private System.Windows.Forms.Label lblServerIP;
         private System.Windows.Forms.Label lblCnnString;
         private System.Windows.Forms.Label lblRowsCount;
+        private System.Windows.Forms.Button btnCreate;
+        private System.Windows.Forms.TextBox tbPassHash;
+        private System.Windows.Forms.Button btnCopy;
     }
 }
 

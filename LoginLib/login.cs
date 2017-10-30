@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using AppGlobals;
-
-
+using System.Security.Cryptography;
+using PasswordHash;
 
 namespace LoginLib
 {
@@ -53,25 +53,37 @@ namespace LoginLib
                     {
                         if (!Global.LoggedIn)
                         {
-                            conn.Open();
-                            da.SelectCommand = new SqlCommand()
+                            //TODO
+                            // get password from this method's "password" parameter, then hash it
+                            using (MD5 md5Hash = MD5.Create())
                             {
-                                //TODO
-                                // get password from this method's "password" parameter, then hash it
+                                Global.usrPass = Hash.GetMD5Hash(password);
 
-                                //send all that info to see if the server finds it
-                                Connection = conn,
-                                CommandText = @"SELECT username, password FROM " + tableName + " WHERE username = '" + username.Trim() + "' AND password = '" + password.Trim() + "'; " +
-                                @"SELECT username, password FROM " + tableName + " WHERE username = '" + username.Trim() + "' AND password = '" + password.Trim() + "'; " +
-                            "UPDATE " + tableName + " SET [isLoggedIn] = 1;",
-                                CommandTimeout = timeout
+                                conn.Open();
+                                da.SelectCommand = new SqlCommand()
+                                {
+                                    //send all that info to see if the server finds it
+                                    Connection = conn,
+                                    CommandText = @"SELECT username, password FROM " + tableName + " WHERE username = '" + username.Trim() + "' AND password = '" + Global.usrPass.Trim() + "'; " +
+                                    @"SELECT username, password FROM " + tableName + " WHERE username = '" + username.Trim() + "' AND password = '" + password.Trim() + "'; " +
+                                    //update the isLoggedIn field on this selected username
+                                    "UPDATE " + tableName + " SET [isLoggedIn] = 1;",
+                                    CommandTimeout = timeout
 
-                            };
-                            DataTable dt = new DataTable();
-                            da.Fill(dt);
+                                };
 
-                            //This is to test if there are rows in dt, changes the variable declared at the top of this library
-                            rowCount = dt.Rows.Count.ToString();
+                                
+                                DataTable dt = new DataTable();
+                                da.Fill(dt);
+
+                                //This is to test if there are rows in dt, changes the variable declared at the top of this library
+                                rowCount = dt.Rows.Count.ToString();
+
+                            }
+                            
+                            
+
+                            
                             
                         }
                         
@@ -126,8 +138,17 @@ namespace LoginLib
             }
         }
 
+        //this is used for the btntCreateHash, returns a password in a desired textbox
+        public static string CreateHash(string password)
+        {
+            using (MD5 md5Hash = MD5.Create(password))
+            {
+                //Encode
+                Global.usrPass = Hash.GetMD5Hash(password);
+            }
 
-
+                return Global.usrPass;
+        }
 
 
 

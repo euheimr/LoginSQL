@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LoginLib;
+using PasswordHash;
 
 namespace LoginSQL
 {
@@ -28,6 +29,7 @@ namespace LoginSQL
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             if(tbUsername.Text == "" || tbUsername.Text == String.Empty || tbPassword.Text == "" || tbPassword.Text == String.Empty)
             {
                 lblStatus.ForeColor = Color.Red;
@@ -78,7 +80,7 @@ namespace LoginSQL
                 lblStatus.Text = "Logged in";
             }
 
-            
+            Cursor.Current = Cursors.Arrow;
         } //end of btnLogin_Click
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -95,6 +97,19 @@ namespace LoginSQL
         private void lblServerIP_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnCreate_Click(object sender, EventArgs e)
+        {
+            string pw = tbPassword.Text;
+            tbPassHash.Text = Hash.GetMD5Hash(pw);
+            Global.usrPass = pw;
+
+        }
+
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(tbPassHash.Text);
         }
     }
 }

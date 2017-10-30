@@ -11,23 +11,12 @@ namespace PasswordHash
     public class Hash
     {
 
-
-
-        public static void HashPassword(string password)
+        public static string GetMD5Hash(string password)
         {
-            using (MD5 md5Hash = MD5.Create())
-            {
-                string hash = GetMD5Hash(md5Hash, password);
 
-            }
-        }
-        
-
-
-        public static string GetMD5Hash(MD5 md5Hash, string password)
-        {
+            MD5 md5 = MD5.Create();
             //create the hash
-            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+            byte[] data = md5.ComputeHash(Encoding.UTF8.GetBytes(password));
 
             StringBuilder sb = new StringBuilder();
 
@@ -35,16 +24,17 @@ namespace PasswordHash
             // with hex 
             for (int i = 0; i < data.Length; i++)
             {
-                sb.Append(data[i].ToString("x4"));
+                sb.Append(data[i].ToString("x2"));
             }
 
+            
             //return stringbuilder's hex string
             return sb.ToString();
             
         }
 
-        
-        
+        //TODO VERIFYHASH
+
         
 
 

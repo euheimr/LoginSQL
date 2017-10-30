@@ -20,6 +20,10 @@ namespace AppGlobals
         //function variables
         public static bool LoggedIn = false;
 
+        //user, and frequently changing strings
+        public static string usrAcc;
+        public static string usrPass;
+        
 
 
         //SQL credentials
