@@ -39,13 +39,11 @@ namespace LoginLib
         //This is for using a username and password on frmLogin.
         public static bool SelectLogin(string cnnString, string username, string password, string tableName, int timeout = 15)
         {
-            using (SqlConnection conn = new SqlConnection(cnnString))
+            try
             {
-                
-                using (SqlDataAdapter da = new SqlDataAdapter())
+                using (SqlConnection conn = new SqlConnection(cnnString))
                 {
-
-                    try
+                    using (SqlDataAdapter da = new SqlDataAdapter())
                     {
                         if (!Global.LoggedIn)
                         {
@@ -56,42 +54,57 @@ namespace LoginLib
                                 string pwd = Hash.GetMD5Hash(password);
                                 Global.usrPass = pwd;
 
-                                conn.Open();
-                                da.SelectCommand = new SqlCommand()
+                                try
                                 {
-                                    //send all that info to see if the server finds it
-                                    Connection = conn,
-                                    CommandText = @"SELECT username, password FROM " + tableName + " WHERE username = '" + username.Trim() + "' AND password = '" + pwd + "'; " +
-                                    //update the isLoggedIn field on this selected username
-                                    "UPDATE " + tableName + " SET [isLoggedIn] = 1;",
-                                    CommandTimeout = timeout
+                                    conn.Open();
+                                    da.SelectCommand = new SqlCommand()
+                                    {
+                                        //send all that info to see if the server finds it
+                                        Connection = conn,
+                                        CommandText = @"SELECT username, password FROM " + tableName + " WHERE username = '" + username.Trim() + "' AND password = '" + pwd + "'; " +
+                                        //update the isLoggedIn field on this selected username
+                                        "UPDATE " + tableName + " SET [isLoggedIn] = 1;",
+                                        CommandTimeout = timeout
 
-                                };
-                                //fill the datatable with the data that was returned from SELECT
-                                DataTable dt = new DataTable();
-                                da.Fill(dt);
+                                    };
+                                    //fill the datatable with the data that was returned from SELECT
+                                    DataTable dt = new DataTable();
+                                    da.Fill(dt);
 
-                                //This is to test if there are rows in dt, changes the variable declared at the top of this library
-                                rowCount = dt.Rows.Count.ToString();
+                                    //This is to test if there are rows in dt, changes the variable declared at the top of this library
+                                    rowCount = dt.Rows.Count.ToString();
+                                }
+                                catch (SqlException SqlEx)
+                                {
+                                    //if we run into an issue, we don't want the program to think we are logged in
+                                    Global.LoggedIn = false;
+                                    throw SqlEx;
+                                }
+                                catch (Exception ex)
+                                {
+                                    Global.LoggedIn = false;
+                                    throw ex;
+                                }
 
                             }
-                            
-                            
                         }
-                        
                     }
-                    catch (Exception ex)
-                    {
-                        //if we run into an issue, we don't want the program to think we are logged in
-                        Global.LoggedIn = false;
-                        //toss this to the calling method to handle the exceptions
-                        throw;
-                    }
-
-                    return Global.LoggedIn;
                 }
-
             }
+
+            catch (SqlException SqlEx)
+            {
+                throw SqlEx;
+            }
+
+
+            catch (Exception ex)
+            {
+                //toss this to the calling method to handle the exceptions
+                throw ex;
+            }
+
+            return Global.LoggedIn;
         }
       
 

@@ -49,7 +49,18 @@ namespace LoginSQL
 
                         SqlDataAdapter da = new SqlDataAdapter();
                         //run an SQL query to grab the info, then compare the info to the returned data in that table
-                        Login.SelectLogin(Global.conn, tbUsername.Text.Trim(), tbPassword.Text.Trim(), Global.tableName, 15);
+                        try
+                        {
+                            Login.SelectLogin(Global.conn, tbUsername.Text.Trim(), tbPassword.Text.Trim(), Global.tableName, 15);
+                        }
+                        catch (SqlException SqlEx)
+                        {
+                            throw SqlEx;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
 
                         //this will tell me how many rows are selected on SelectLogin. This will then display on the frmLogin as a number
                         //between buttons Exit and Login. It -should- be 1, as we are SELECTing one record
@@ -60,8 +71,27 @@ namespace LoginSQL
                         Global.LoggedIn = true;
 
                     }
+                    
                 }
-                       
+
+                //launching frmMain
+                if (Global.LoggedIn)
+                {
+                    try
+                    {
+                        lblStatus.ForeColor = Color.Violet;
+                        lblStatus.Text = "Logged in";
+                        //show the main form
+                        var mainForm = new frmMain();
+                        mainForm.Show();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message + " Error launching frmMain.");
+
+                    }
+
+                }
             }
                
             catch (SqlException SqlEx)
@@ -76,24 +106,7 @@ namespace LoginSQL
                 
             }
 
-            //launching frmMain
-            if (Global.LoggedIn)
-            {
-                try
-                {
-                    lblStatus.ForeColor = Color.Violet;
-                    lblStatus.Text = "Logged in";
-                    //show the main form
-                    var mainForm = new frmMain();
-                    mainForm.Show();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message + " Error launching frmMain.");
-
-                }
-
-            }
+           
                 
             Cursor.Current = Cursors.Arrow;
         } //end of btnLogin_Click
@@ -142,7 +155,28 @@ namespace LoginSQL
 
         private void btnCopy_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(tbPassHash.Text);
+            try
+            {
+                if (String.IsNullOrWhiteSpace(tbPassword.Text))
+                {
+                    lblStatus.ForeColor = Color.Red;
+                    lblStatus.Text = "Enter a password to generate a hash.";
+                    return;
+                }
+                else
+                {
+                    //simulate the hash generation button to be clicked
+                    btnCreate.PerformClick();
+                    Clipboard.SetText(tbPassHash.Text);
+                }
+
+            } 
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+
+
         }
     }
 }
