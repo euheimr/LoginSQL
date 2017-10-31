@@ -26,20 +26,19 @@ namespace LoginSQL
                     Login.SetLogout(Global.conn, Global.usrAcc, Global.usrPass, Global.tableName);
                     Global.LoggedIn = false;
 
-                    
-
+                    this.Close();
                 }
                 catch (SqlException SqlEx)
                 {
-                    lblStatusMain.ForeColor = Color.Red;
-                    lblStatusMain.Text = "Sql error: " + SqlEx.Message;
+                    MessageBox.Show("Sql error: " + SqlEx.Message);
                     return;
 
                 }
                 catch (Exception ex)
                 {
                     lblStatusMain.ForeColor = Color.Red;
-                    lblStatusMain.Text = "Error: " + ex.Message;
+                    MessageBox.Show("Error: " + ex.Message);
+                    return;
                 }
                 
             }
@@ -48,7 +47,7 @@ namespace LoginSQL
                 //don't open the form, dummy!
                 this.Close();
             }
-            this.Close();
+            
         }
     }
 }
