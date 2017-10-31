@@ -30,19 +30,18 @@ namespace AppGlobals
         public static string SqlPass = "public";
 
         //Connection string
-        //TODO
-        //public static string conn = @"Data source=" + @serverName + @"\" + @serverInstance + ";" + "Integrated Security=False; Initial Catalog=" + @DBName + "; " + "user Id=" + @SqlUserID + "; " + "password=" + @SqlPass + ";";
-        public static string conn = @"Server=" + serverName + "; Database=" + dbName + "; Integrated Security=False;" + "user Id=" + SqlUserId + "; " + "Password=" + @SqlPass + ";";
+        //local string - test server
+        //public static string conn = @"Server=" + serverName + "; Database=" + dbName + "; Integrated Security=False;" + "user Id=" + SqlUserId + "; " + "Password=" + @SqlPass + ";";
 
         //live TSQL DB
         public static string liveServerName = "euheimr.database.windows.net,1433";
         public static string liveDBName = "betz";
-        public static string liveUsrID = "public";
-        public static string liveUsrPwd = "public";
+        public static string liveUsrID = "pubLoginSqlApp";
+        public static string liveUsrPwd = "4c9184f37cff01bcdc32dc486ec36961!QAZ" + "";
 
         //live string
-        public static string connLive = @"tcp:" + liveServerName + ";" + "Initial Catalog = " + liveDBName + ";" + " Persist Security Info=False;" + " User ID = " + liveUsrID + "; Password= " + liveUsrPwd + ";" +
-            "MultipleActiveResultSets = False; Encrypt=True;TrustServerCertificate=False; Connection Timeout = 30;";
+        public static string conn = @"tcp:" + liveServerName + ";" + "Initial Catalog = " + liveDBName + ";" + " Persist Security Info=False;" + " User ID = " + liveUsrID + "; Password= " + liveUsrPwd + ";" +
+            "MultipleActiveResultSets = False; Encrypt=True;TrustServerCertificate=False;";
     }; 
 
 }
