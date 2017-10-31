@@ -126,11 +126,17 @@ namespace LoginLib
                                 return false;
                             }
                         }
+                        catch (SqlException SqlEx)
+                        {
+                            //send to frmMain
+                            throw SqlEx;
+                        }
+
                         catch (Exception ex)
                         {
                             //propagate to the method that calls this method
                             return Global.LoggedIn;
-                            throw;
+                            throw ex;
                         }
                         
                     }
@@ -160,7 +166,6 @@ namespace LoginLib
             }
             catch (Exception ex)
             {
-
                 throw;
             }
         }

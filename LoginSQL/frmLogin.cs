@@ -67,25 +67,35 @@ namespace LoginSQL
             catch (SqlException SqlEx)
             {
                 lblStatus.ForeColor = Color.Red;
-                lblStatus.Text = "Sql error: " + SqlEx.Message + "";
+                lblStatus.Text = "Sql error: " + SqlEx.Message;
                 return;
             }
 
             catch (Exception ex)
             {
                 lblStatus.ForeColor = Color.Red;
-                lblStatus.Text = "Error: " + ex.Message + "";
+                lblStatus.Text = "Error: " + ex.Message;
                 return;
             }
-            
-            if (Global.LoggedIn)
+
+            //launching frmMain
+            try
             {
-                lblStatus.ForeColor = Color.Violet;
-                lblStatus.Text = "Logged in";
-                //show the main form
-                var mainForm = new frmMain();
-                mainForm.Show();
+                if (Global.LoggedIn)
+                {
+                    lblStatus.ForeColor = Color.Violet;
+                    lblStatus.Text = "Logged in";
+                    //show the main form
+                    var mainForm = new frmMain();
+                    mainForm.Show();
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + " Error launching frmMain ");
+
+            }
+            
             
             
             

@@ -32,13 +32,14 @@ namespace LoginSQL
                 catch (SqlException SqlEx)
                 {
                     lblStatusMain.ForeColor = Color.Red;
-                    lblStatusMain.Text = "Sql error: " + SqlEx.Message + "";
+                    lblStatusMain.Text = "Sql error: " + SqlEx.Message;
                     return;
 
                 }
                 catch (Exception ex)
                 {
-                    
+                    lblStatusMain.ForeColor = Color.Red;
+                    lblStatusMain.Text = "Error: " + ex.Message;
                 }
                 
             }
