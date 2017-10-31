@@ -45,8 +45,10 @@ namespace LoginSQL
             }
             else
             {
+                //don't open the form, dummy!
                 this.Close();
             }
+            this.Close();
         }
     }
 }

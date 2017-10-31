@@ -115,9 +115,13 @@ namespace LoginLib
                                     //send all that info to see if the server finds it
                                     Connection = conn,
                                     //update the isLoggedIn field on this selected username
-                                    CommandText = @"UPDATE " + tableName + " SET isLoggedIn = 0 WHERE username = " + "'" + username + "'" + " AND password = " + "'" + Global.usrPass + "'" + "; ",
+                                    CommandText = @"UPDATE " + tableName + " SET isLoggedIn = 0 WHERE username = " + "'" + username + "'" + " AND password = " + "'" + Global.usrPass + "'" + ";",
                                     CommandTimeout = timeout
                                 };
+                                //fill the datatable with the data that was returned from the Data adapter
+                                DataTable dt = new DataTable();
+                                da.Fill(dt);
+
                                 Global.LoggedIn = false;
                                 return true;
                             }
