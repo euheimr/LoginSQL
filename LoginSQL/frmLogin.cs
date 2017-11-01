@@ -17,6 +17,7 @@ namespace LoginSQL
             InitializeComponent();
             lblServerIP.Text = Global.liveServerName;
             tbCnnString.Text = Global.conn;
+            lblCurrentDateTime.Text = DateTime.Now.ToString();
         }
         
         
@@ -64,7 +65,7 @@ namespace LoginSQL
 
                         //this will tell me how many rows are selected on SelectLogin. This will then display on the frmLogin as a number
                         //between buttons Exit and Login. It -should- be 1, as we are SELECTing one record
-                        lblRowCount.Text = Login.rowCount;
+                        lblRowCount.Text = Global.rowCount;
                         Global.usrAcc = tbUsername.Text.Trim();
 
                         //sets the IsLoggedIn flag in MSSQL server column to 1 (true)
@@ -75,7 +76,7 @@ namespace LoginSQL
                 }
 
                 //launching frmMain
-                if (Global.LoggedIn)
+                if (Global.LoggedIn && Global.rowCount == "1")
                 {
                     try
                     {
@@ -87,10 +88,16 @@ namespace LoginSQL
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message + " Error launching frmMain.");
-
+                        throw ex;
                     }
 
+                }
+                else
+                {
+                    lblStatus.ForeColor = Color.Red;
+                    lblStatus.Text = "Invalid login.";
+                    MessageBox.Show("Invalid login.");
+                    return;
                 }
             }
                
@@ -98,7 +105,6 @@ namespace LoginSQL
             {
                 lblStatus.Text = "Login failed!";
                 MessageBox.Show("Sql error: \n\n" + SqlEx.Message.ToString());
-                
             }
 
             catch (Exception ex)
@@ -178,6 +184,65 @@ namespace LoginSQL
             }
 
 
+        }
+
+        private void btnCreateLogin_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(tbUsername.Text) || String.IsNullOrEmpty(tbPassword.Text))
+                {
+                    MessageBox.Show("Please enter a username and password in the fields, then click 'Create Login'.");
+                    return;
+                }
+                else
+                {
+                    var authForm = new frmAuth();
+                    authForm.Show();
+                    
+                    if (Global.authPass)
+                    {
+                        DialogResult result;
+                        if (String.IsNullOrEmpty(tbUsername.Text) || String.IsNullOrEmpty(tbPassword.Text))
+                        {
+                            MessageBox.Show("Invalid username and/or password.");
+                            return;
+                        }
+                        else
+                        {
+                            result = MessageBox.Show("Please confirm your entry: \n\n Username: " + tbUsername.Text + "\n\n Password: " + tbPassword.Text, "Create login", MessageBoxButtons.YesNo);
+                            if (result == DialogResult.OK)
+                            {
+                                //generate the hashed password, then grab the output from PassHash textbox
+                                btnCreate.PerformClick();
+                                //CREATE
+                                Login.CreateLogin(Global.tblLogins, tbUsername.Text.Trim(), tbPassHash.Text.Trim(), 0);
+                            }
+                            else
+                            {
+                                this.Close();
+                            }
+                        }
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+               
+            }
+            catch (SqlException SqlEx)
+            {
+                MessageBox.Show("SQL error: " + SqlEx.Message, "SQL ERROR", MessageBoxButtons.OK);
+                lblStatus.Text = SqlEx.Message;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "SQL ERROR", MessageBoxButtons.OK);
+                lblStatus.Text = ex.Message;
+            }
+            
         }
     }
 }

@@ -46,13 +46,15 @@
             this.tbCnnString = new System.Windows.Forms.TextBox();
             this.lblCnnString = new System.Windows.Forms.Label();
             this.lblRowCountLabel = new System.Windows.Forms.Label();
+            this.lblCurrentDateTime = new System.Windows.Forms.Label();
+            this.btnCreateLogin = new System.Windows.Forms.Button();
             this.Waiting.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnExit
             // 
             this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnExit.Location = new System.Drawing.Point(335, 287);
+            this.btnExit.Location = new System.Drawing.Point(12, 295);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 23);
             this.btnExit.TabIndex = 4;
@@ -64,7 +66,7 @@
             // 
             this.btnLogin.BackColor = System.Drawing.SystemColors.Control;
             this.btnLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLogin.Location = new System.Drawing.Point(292, 66);
+            this.btnLogin.Location = new System.Drawing.Point(333, 295);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(75, 23);
             this.btnLogin.TabIndex = 3;
@@ -94,6 +96,7 @@
             // 
             this.tbUsername.BackColor = System.Drawing.SystemColors.Window;
             this.tbUsername.Location = new System.Drawing.Point(80, 34);
+            this.tbUsername.MaxLength = 50;
             this.tbUsername.Name = "tbUsername";
             this.tbUsername.Size = new System.Drawing.Size(203, 20);
             this.tbUsername.TabIndex = 1;
@@ -102,6 +105,7 @@
             // tbPassword
             // 
             this.tbPassword.Location = new System.Drawing.Point(80, 68);
+            this.tbPassword.MaxLength = 50;
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.Size = new System.Drawing.Size(203, 20);
             this.tbPassword.TabIndex = 2;
@@ -121,9 +125,9 @@
             // 
             this.Waiting.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatus});
-            this.Waiting.Location = new System.Drawing.Point(0, 313);
+            this.Waiting.Location = new System.Drawing.Point(0, 321);
             this.Waiting.Name = "Waiting";
-            this.Waiting.Size = new System.Drawing.Size(421, 22);
+            this.Waiting.Size = new System.Drawing.Size(434, 22);
             this.Waiting.TabIndex = 7;
             // 
             // lblStatus
@@ -147,7 +151,7 @@
             // lblRowCount
             // 
             this.lblRowCount.AutoSize = true;
-            this.lblRowCount.Location = new System.Drawing.Point(397, 34);
+            this.lblRowCount.Location = new System.Drawing.Point(414, 34);
             this.lblRowCount.Name = "lblRowCount";
             this.lblRowCount.Size = new System.Drawing.Size(13, 13);
             this.lblRowCount.TabIndex = 9;
@@ -213,11 +217,30 @@
             // lblRowCountLabel
             // 
             this.lblRowCountLabel.AutoSize = true;
-            this.lblRowCountLabel.Location = new System.Drawing.Point(289, 34);
+            this.lblRowCountLabel.Location = new System.Drawing.Point(306, 34);
             this.lblRowCountLabel.Name = "lblRowCountLabel";
             this.lblRowCountLabel.Size = new System.Drawing.Size(102, 13);
             this.lblRowCountLabel.TabIndex = 16;
             this.lblRowCountLabel.Text = "Selected row count:";
+            // 
+            // lblCurrentDateTime
+            // 
+            this.lblCurrentDateTime.AutoSize = true;
+            this.lblCurrentDateTime.Location = new System.Drawing.Point(306, 13);
+            this.lblCurrentDateTime.Name = "lblCurrentDateTime";
+            this.lblCurrentDateTime.Size = new System.Drawing.Size(53, 13);
+            this.lblCurrentDateTime.TabIndex = 17;
+            this.lblCurrentDateTime.Text = "DateTime";
+            // 
+            // btnCreateLogin
+            // 
+            this.btnCreateLogin.Location = new System.Drawing.Point(314, 66);
+            this.btnCreateLogin.Name = "btnCreateLogin";
+            this.btnCreateLogin.Size = new System.Drawing.Size(94, 23);
+            this.btnCreateLogin.TabIndex = 18;
+            this.btnCreateLogin.Text = "Create Login";
+            this.btnCreateLogin.UseVisualStyleBackColor = true;
+            this.btnCreateLogin.Click += new System.EventHandler(this.btnCreateLogin_Click);
             // 
             // frmLogin
             // 
@@ -226,7 +249,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.CancelButton = this.btnExit;
-            this.ClientSize = new System.Drawing.Size(421, 335);
+            this.ClientSize = new System.Drawing.Size(434, 343);
+            this.Controls.Add(this.btnCreateLogin);
+            this.Controls.Add(this.lblCurrentDateTime);
             this.Controls.Add(this.lblRowCountLabel);
             this.Controls.Add(this.lblCnnString);
             this.Controls.Add(this.tbCnnString);
@@ -274,6 +299,8 @@
         private System.Windows.Forms.TextBox tbCnnString;
         private System.Windows.Forms.Label lblCnnString;
         private System.Windows.Forms.Label lblRowCountLabel;
+        private System.Windows.Forms.Label lblCurrentDateTime;
+        private System.Windows.Forms.Button btnCreateLogin;
     }
 }
 

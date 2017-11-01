@@ -19,8 +19,7 @@ namespace LoginLib
 {
     public class Login
     {
-        //Testing for SelectLogin's datatable row count
-        public static string rowCount;
+        
 
         //method for logging into the SQL DB
         public static DataTable GetLogin(string cnnString, string loginSelect, int timeout = 10)
@@ -71,18 +70,46 @@ namespace LoginLib
                                     {
                                         //send all that info to see if the server finds it
                                         Connection = conn,
-                                        CommandText = @"SELECT username, password FROM " + tableName + " WHERE username = '" + username.Trim() + "' AND password = '" + pwd + "'; " +
-                                        //update the isLoggedIn field on this selected username
-                                        "UPDATE " + tableName + " SET [isLoggedIn] = 1;",
+                                        CommandText = @"SELECT username, password FROM " + tableName + " WHERE username = '" + username.Trim() + "' AND password = '" + pwd + "'; ",
                                         CommandTimeout = timeout
-
                                     };
+                                    conn.Close();
                                     //fill the datatable with the data that was returned from SELECT
                                     DataTable dt = new DataTable();
                                     da.Fill(dt);
-
                                     //This is to test if there are rows in dt, changes the variable declared at the top of this library
-                                    rowCount = dt.Rows.Count.ToString();
+                                    //this is then used below for the if statement
+                                    Global.rowCount = dt.Rows.Count.ToString();
+
+                                    //get current date & time, this is then put into the database as the last time logged in
+                                    string dateTimeLog = DateTime.Now.ToString();
+
+                                    if (Global.rowCount == "1")
+                                    {
+                                        conn.Open();
+                                        da.SelectCommand = new SqlCommand()
+                                        {
+                                            Connection = conn,
+                                            //update the isLoggedIn field on this selected username
+                                            CommandText = @"UPDATE " + tableName + " SET isLoggedIn=1, [lastLogout]='"+ dateTimeLog +"' WHERE username = '" + pwd + "';",
+                                            CommandTimeout = timeout
+                                        };
+                                        conn.Close();
+                                        DataTable dt2 = new DataTable();
+                                        da.Fill(dt2);
+
+                                    }
+                                    else if (Global.rowCount == "0")
+                                    {
+                                        // :thinking:
+                                    }
+                                    else
+                                    {
+                                        //
+                                    }
+
+
+                                    
                                 }
                                 catch (SqlException SqlEx)
                                 {
@@ -177,7 +204,7 @@ namespace LoginLib
                 
             }
             
-            rowCount = "0";
+            Global.rowCount = "0";
 
             return Global.LoggedIn;
         }
@@ -200,22 +227,19 @@ namespace LoginLib
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
-        //Creates a unique ID key in the database for each account. 
-        //It will select the last row, find the last ID, and return that (idKey + 1) as an int
-        public static int GenerateID(string cnnString)
-        {
-            int idKey = 0;
-            //TODO
-            return idKey;
-                  
-        }
-
-        
-        public static void CreateLogin(int idKey, string username, string password, byte isLoggedIn, int timeout = 15)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="idKey"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="isLoggedIn"></param>
+        /// <param name="timeout"></param>
+        public static void CreateLogin(string tableName, string username, string password, byte isLoggedIn, int timeout = 15)
         {
             try
             {
@@ -225,13 +249,11 @@ namespace LoginLib
                     {
                         
                         conn.Open();
-                        //create that unique id key
-                        idKey = GenerateID(idKey.ToString());
                         //RUN IT
                         da.SelectCommand = new SqlCommand()
                         {
                             Connection = conn,
-                            CommandText = @"INSERT INTO " + Global.tableName + " (id, username, password, isLoggedIn) VALUES " + "(" + idKey + ",'" + username.Trim() + "'," +
+                            CommandText = @"INSERT INTO " + tableName + " (username, password, isLoggedIn) VALUES " + "('" + username.Trim() + "'," +
                             "'" + password.Trim() + "'," + isLoggedIn + ");",
                             CommandTimeout = timeout
                         };
@@ -256,6 +278,53 @@ namespace LoginLib
 
         }
         
+
+        public static bool CheckAuthPass(string authPass, int timeout = 15)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(Global.conn))
+                {
+                    using (SqlDataAdapter da = new SqlDataAdapter())
+                    {
+                        conn.Open();
+                        da.SelectCommand = new SqlCommand()
+                        {
+                            Connection = conn,
+                            CommandText = @"SELECT authPass FROM " + Global.tblAuth + " WHERE authPass='" + authPass + "';",
+                            CommandTimeout = timeout
+                        };
+                        conn.Close();
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+
+
+                        if (dt.Rows.Count == 1)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            catch (SqlException SqlEx)
+            {
+                throw SqlEx;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
+
+
+
     }
 }
 
