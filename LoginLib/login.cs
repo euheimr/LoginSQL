@@ -170,7 +170,7 @@ namespace LoginLib
                     }
                     else
                     {
-
+                        //kinda need to handle stuff here
                     }
                     
                 }
@@ -215,11 +215,11 @@ namespace LoginLib
         }
 
         
-        public static void CreateLogin(string cnnString, string tableName, int idKey, string username, string password, byte isLoggedIn, int timeout = 15)
+        public static void CreateLogin(int idKey, string username, string password, byte isLoggedIn, int timeout = 15)
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(cnnString))
+                using (SqlConnection conn = new SqlConnection(Global.conn))
                 {
                     using (SqlDataAdapter da = new SqlDataAdapter())
                     {
@@ -231,7 +231,7 @@ namespace LoginLib
                         da.SelectCommand = new SqlCommand()
                         {
                             Connection = conn,
-                            CommandText = @"INSERT INTO " + tableName + " (id, username, password, isLoggedIn) VALUES " + "(" + idKey + ",'" + username.Trim() + "'," +
+                            CommandText = @"INSERT INTO " + Global.tableName + " (id, username, password, isLoggedIn) VALUES " + "(" + idKey + ",'" + username.Trim() + "'," +
                             "'" + password.Trim() + "'," + isLoggedIn + ");",
                             CommandTimeout = timeout
                         };
