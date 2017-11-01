@@ -5,6 +5,16 @@ using System.Security.Cryptography;
 using AppGlobals;
 using PasswordHash;
 
+///                 TODO:
+///                 
+/// -Create method to check for existing login
+/// -Add a DateTime parameter for all SQL logins
+/// -Optionally add a message
+/// -Hit [random] button for a random message
+/// -create a filter
+///
+
+
 namespace LoginLib
 {
     public class Login
@@ -12,8 +22,8 @@ namespace LoginLib
         //Testing for SelectLogin's datatable row count
         public static string rowCount;
 
-
-        public static DataTable GetLogin(string cnnString, string loginSelect, int timeout = 20)
+        //method for logging into the SQL DB
+        public static DataTable GetLogin(string cnnString, string loginSelect, int timeout = 10)
         {
             using (SqlConnection cnn = new SqlConnection(cnnString))
             {
@@ -136,6 +146,7 @@ namespace LoginLib
                                 da.Fill(dt);
 
                                 Global.LoggedIn = false;
+
                                 return true;
                             }
                             else
@@ -157,11 +168,17 @@ namespace LoginLib
                         }
                         
                     }
+                    else
+                    {
+
+                    }
                     
                 }
                 
             }
             
+            rowCount = "0";
+
             return Global.LoggedIn;
         }
         
@@ -187,12 +204,58 @@ namespace LoginLib
             }
         }
 
+        //Creates a unique ID key in the database for each account. 
+        //It will select the last row, find the last ID, and return that (idKey + 1) as an int
+        public static int GenerateID(string cnnString)
+        {
+            int idKey = 0;
+            //TODO
+            return idKey;
+                  
+        }
+
+        
+        public static void CreateLogin(string cnnString, string tableName, int idKey, string username, string password, byte isLoggedIn, int timeout = 15)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(cnnString))
+                {
+                    using (SqlDataAdapter da = new SqlDataAdapter())
+                    {
+                        
+                        conn.Open();
+                        //create that unique id key
+                        idKey = GenerateID(idKey.ToString());
+                        //RUN IT
+                        da.SelectCommand = new SqlCommand()
+                        {
+                            Connection = conn,
+                            CommandText = @"INSERT INTO " + tableName + " (id, username, password, isLoggedIn) VALUES " + "(" + idKey + ",'" + username.Trim() + "'," +
+                            "'" + password.Trim() + "'," + isLoggedIn + ");",
+                            CommandTimeout = timeout
+                        };
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        
+
+                    }
+                }
+            }
+            catch (SqlException SqlEx)
+            {
+                //cash me outside, how bout dat?
+                throw SqlEx;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
 
 
-
-
-
+        }
+        
     }
 }
 

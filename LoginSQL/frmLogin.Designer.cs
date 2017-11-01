@@ -38,20 +38,21 @@
             this.Waiting = new System.Windows.Forms.StatusStrip();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblServerIP = new System.Windows.Forms.Label();
-            this.lblRowsCount = new System.Windows.Forms.Label();
+            this.lblRowCount = new System.Windows.Forms.Label();
             this.btnCreate = new System.Windows.Forms.Button();
             this.tbPassHash = new System.Windows.Forms.TextBox();
             this.btnCopy = new System.Windows.Forms.Button();
             this.lblHash = new System.Windows.Forms.Label();
             this.tbCnnString = new System.Windows.Forms.TextBox();
             this.lblCnnString = new System.Windows.Forms.Label();
+            this.lblRowCountLabel = new System.Windows.Forms.Label();
             this.Waiting.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnExit
             // 
             this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnExit.Location = new System.Drawing.Point(14, 94);
+            this.btnExit.Location = new System.Drawing.Point(335, 287);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 23);
             this.btnExit.TabIndex = 4;
@@ -61,13 +62,14 @@
             // 
             // btnLogin
             // 
+            this.btnLogin.BackColor = System.Drawing.SystemColors.Control;
             this.btnLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLogin.Location = new System.Drawing.Point(208, 94);
+            this.btnLogin.Location = new System.Drawing.Point(292, 66);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(75, 23);
             this.btnLogin.TabIndex = 3;
             this.btnLogin.Text = "Login";
-            this.btnLogin.UseVisualStyleBackColor = true;
+            this.btnLogin.UseVisualStyleBackColor = false;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
             // lblUsername
@@ -90,6 +92,7 @@
             // 
             // tbUsername
             // 
+            this.tbUsername.BackColor = System.Drawing.SystemColors.Window;
             this.tbUsername.Location = new System.Drawing.Point(80, 34);
             this.tbUsername.Name = "tbUsername";
             this.tbUsername.Size = new System.Drawing.Size(203, 20);
@@ -125,6 +128,7 @@
             // 
             // lblStatus
             // 
+            this.lblStatus.BackColor = System.Drawing.SystemColors.Control;
             this.lblStatus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(54, 17);
@@ -135,22 +139,23 @@
             this.lblServerIP.AutoSize = true;
             this.lblServerIP.Location = new System.Drawing.Point(96, 13);
             this.lblServerIP.Name = "lblServerIP";
-            this.lblServerIP.Size = new System.Drawing.Size(10, 13);
+            this.lblServerIP.Size = new System.Drawing.Size(87, 13);
             this.lblServerIP.TabIndex = 0;
-            this.lblServerIP.Text = ".";
+            this.lblServerIP.Text = "- no connection -";
             this.lblServerIP.Click += new System.EventHandler(this.lblServerIP_Click);
             // 
-            // lblRowsCount
+            // lblRowCount
             // 
-            this.lblRowsCount.AutoSize = true;
-            this.lblRowsCount.Location = new System.Drawing.Point(100, 121);
-            this.lblRowsCount.Name = "lblRowsCount";
-            this.lblRowsCount.Size = new System.Drawing.Size(0, 13);
-            this.lblRowsCount.TabIndex = 9;
+            this.lblRowCount.AutoSize = true;
+            this.lblRowCount.Location = new System.Drawing.Point(397, 34);
+            this.lblRowCount.Name = "lblRowCount";
+            this.lblRowCount.Size = new System.Drawing.Size(13, 13);
+            this.lblRowCount.TabIndex = 9;
+            this.lblRowCount.Text = "?";
             // 
             // btnCreate
             // 
-            this.btnCreate.Location = new System.Drawing.Point(99, 158);
+            this.btnCreate.Location = new System.Drawing.Point(80, 135);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(128, 23);
             this.btnCreate.TabIndex = 10;
@@ -160,7 +165,7 @@
             // 
             // tbPassHash
             // 
-            this.tbPassHash.Location = new System.Drawing.Point(80, 132);
+            this.tbPassHash.Location = new System.Drawing.Point(80, 109);
             this.tbPassHash.Name = "tbPassHash";
             this.tbPassHash.ReadOnly = true;
             this.tbPassHash.Size = new System.Drawing.Size(203, 20);
@@ -170,7 +175,7 @@
             // 
             // btnCopy
             // 
-            this.btnCopy.Location = new System.Drawing.Point(233, 158);
+            this.btnCopy.Location = new System.Drawing.Point(233, 135);
             this.btnCopy.Name = "btnCopy";
             this.btnCopy.Size = new System.Drawing.Size(50, 23);
             this.btnCopy.TabIndex = 12;
@@ -181,7 +186,7 @@
             // lblHash
             // 
             this.lblHash.AutoSize = true;
-            this.lblHash.Location = new System.Drawing.Point(37, 135);
+            this.lblHash.Location = new System.Drawing.Point(163, 93);
             this.lblHash.Name = "lblHash";
             this.lblHash.Size = new System.Drawing.Size(35, 13);
             this.lblHash.TabIndex = 13;
@@ -189,13 +194,12 @@
             // 
             // tbCnnString
             // 
-            this.tbCnnString.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.tbCnnString.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.tbCnnString.Location = new System.Drawing.Point(12, 204);
             this.tbCnnString.Multiline = true;
             this.tbCnnString.Name = "tbCnnString";
             this.tbCnnString.Size = new System.Drawing.Size(396, 86);
             this.tbCnnString.TabIndex = 14;
-            this.tbCnnString.Text = ".";
             // 
             // lblCnnString
             // 
@@ -206,20 +210,31 @@
             this.lblCnnString.TabIndex = 15;
             this.lblCnnString.Text = "Connection String:";
             // 
+            // lblRowCountLabel
+            // 
+            this.lblRowCountLabel.AutoSize = true;
+            this.lblRowCountLabel.Location = new System.Drawing.Point(289, 34);
+            this.lblRowCountLabel.Name = "lblRowCountLabel";
+            this.lblRowCountLabel.Size = new System.Drawing.Size(102, 13);
+            this.lblRowCountLabel.TabIndex = 16;
+            this.lblRowCountLabel.Text = "Selected row count:";
+            // 
             // frmLogin
             // 
             this.AcceptButton = this.btnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.CancelButton = this.btnExit;
             this.ClientSize = new System.Drawing.Size(421, 335);
+            this.Controls.Add(this.lblRowCountLabel);
             this.Controls.Add(this.lblCnnString);
             this.Controls.Add(this.tbCnnString);
             this.Controls.Add(this.lblHash);
             this.Controls.Add(this.btnCopy);
             this.Controls.Add(this.tbPassHash);
             this.Controls.Add(this.btnCreate);
-            this.Controls.Add(this.lblRowsCount);
+            this.Controls.Add(this.lblRowCount);
             this.Controls.Add(this.lblServerIP);
             this.Controls.Add(this.Waiting);
             this.Controls.Add(this.tbPassword);
@@ -250,7 +265,7 @@
         private System.Windows.Forms.StatusStrip Waiting;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.Label lblServerIP;
-        private System.Windows.Forms.Label lblRowsCount;
+        private System.Windows.Forms.Label lblRowCount;
         private System.Windows.Forms.Button btnCreate;
         private System.Windows.Forms.TextBox tbPassHash;
         private System.Windows.Forms.Button btnCopy;
@@ -258,6 +273,7 @@
         public System.Windows.Forms.TextBox tbPassword;
         private System.Windows.Forms.TextBox tbCnnString;
         private System.Windows.Forms.Label lblCnnString;
+        private System.Windows.Forms.Label lblRowCountLabel;
     }
 }
 

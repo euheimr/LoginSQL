@@ -15,7 +15,7 @@ namespace LoginSQL
         {
             
             InitializeComponent();
-            lblServerIP.Text = Global.serverName;
+            lblServerIP.Text = Global.liveServerName;
             tbCnnString.Text = Global.conn;
         }
         
@@ -64,7 +64,7 @@ namespace LoginSQL
 
                         //this will tell me how many rows are selected on SelectLogin. This will then display on the frmLogin as a number
                         //between buttons Exit and Login. It -should- be 1, as we are SELECTing one record
-                        lblRowsCount.Text = Login.rowCount;
+                        lblRowCount.Text = Login.rowCount;
                         Global.usrAcc = tbUsername.Text.Trim();
 
                         //sets the IsLoggedIn flag in MSSQL server column to 1 (true)
@@ -96,6 +96,7 @@ namespace LoginSQL
                
             catch (SqlException SqlEx)
             {
+                lblStatus.Text = "Login failed!";
                 MessageBox.Show("Sql error: \n\n" + SqlEx.Message.ToString());
                 
             }
