@@ -59,6 +59,8 @@ namespace LoginSQL
                         MessageBox.Show("Invalid auth password.", "AUTH ERROR", MessageBoxButtons.OK);
                         this.Close();
                     }
+
+
                 }
             }
             catch (SqlException SqlEx)

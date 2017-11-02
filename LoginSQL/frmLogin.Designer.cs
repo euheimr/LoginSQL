@@ -39,8 +39,8 @@
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblServerIP = new System.Windows.Forms.Label();
             this.lblRowCount = new System.Windows.Forms.Label();
-            this.btnCreate = new System.Windows.Forms.Button();
-            this.tbPassHash = new System.Windows.Forms.TextBox();
+            this.btnCreateHash = new System.Windows.Forms.Button();
+            this.tbPasswordHash = new System.Windows.Forms.TextBox();
             this.btnCopy = new System.Windows.Forms.Button();
             this.lblHash = new System.Windows.Forms.Label();
             this.tbCnnString = new System.Windows.Forms.TextBox();
@@ -48,6 +48,7 @@
             this.lblRowCountLabel = new System.Windows.Forms.Label();
             this.lblCurrentDateTime = new System.Windows.Forms.Label();
             this.btnCreateLogin = new System.Windows.Forms.Button();
+            this.btnCheckUsername = new System.Windows.Forms.Button();
             this.Waiting.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -157,25 +158,25 @@
             this.lblRowCount.TabIndex = 9;
             this.lblRowCount.Text = "?";
             // 
-            // btnCreate
+            // btnCreateHash
             // 
-            this.btnCreate.Location = new System.Drawing.Point(80, 135);
-            this.btnCreate.Name = "btnCreate";
-            this.btnCreate.Size = new System.Drawing.Size(128, 23);
-            this.btnCreate.TabIndex = 10;
-            this.btnCreate.Text = "Create Password Hash";
-            this.btnCreate.UseVisualStyleBackColor = true;
-            this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
+            this.btnCreateHash.Location = new System.Drawing.Point(80, 135);
+            this.btnCreateHash.Name = "btnCreateHash";
+            this.btnCreateHash.Size = new System.Drawing.Size(128, 23);
+            this.btnCreateHash.TabIndex = 10;
+            this.btnCreateHash.Text = "Create Password Hash";
+            this.btnCreateHash.UseVisualStyleBackColor = true;
+            this.btnCreateHash.Click += new System.EventHandler(this.btnCreate_Click);
             // 
-            // tbPassHash
+            // tbPasswordHash
             // 
-            this.tbPassHash.Location = new System.Drawing.Point(80, 109);
-            this.tbPassHash.Name = "tbPassHash";
-            this.tbPassHash.ReadOnly = true;
-            this.tbPassHash.Size = new System.Drawing.Size(203, 20);
-            this.tbPassHash.TabIndex = 11;
-            this.tbPassHash.TabStop = false;
-            this.tbPassHash.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbPasswordHash.Location = new System.Drawing.Point(80, 109);
+            this.tbPasswordHash.Name = "tbPasswordHash";
+            this.tbPasswordHash.ReadOnly = true;
+            this.tbPasswordHash.Size = new System.Drawing.Size(203, 20);
+            this.tbPasswordHash.TabIndex = 11;
+            this.tbPasswordHash.TabStop = false;
+            this.tbPasswordHash.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btnCopy
             // 
@@ -234,13 +235,23 @@
             // 
             // btnCreateLogin
             // 
-            this.btnCreateLogin.Location = new System.Drawing.Point(314, 66);
+            this.btnCreateLogin.Location = new System.Drawing.Point(314, 68);
             this.btnCreateLogin.Name = "btnCreateLogin";
-            this.btnCreateLogin.Size = new System.Drawing.Size(94, 23);
+            this.btnCreateLogin.Size = new System.Drawing.Size(108, 21);
             this.btnCreateLogin.TabIndex = 18;
             this.btnCreateLogin.Text = "Create Login";
             this.btnCreateLogin.UseVisualStyleBackColor = true;
             this.btnCreateLogin.Click += new System.EventHandler(this.btnCreateLogin_Click);
+            // 
+            // btnCheckUsername
+            // 
+            this.btnCheckUsername.Location = new System.Drawing.Point(314, 96);
+            this.btnCheckUsername.Name = "btnCheckUsername";
+            this.btnCheckUsername.Size = new System.Drawing.Size(108, 23);
+            this.btnCheckUsername.TabIndex = 19;
+            this.btnCheckUsername.Text = "Check Username";
+            this.btnCheckUsername.UseVisualStyleBackColor = true;
+            this.btnCheckUsername.Click += new System.EventHandler(this.btnCheckUsername_Click);
             // 
             // frmLogin
             // 
@@ -250,6 +261,7 @@
             this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.CancelButton = this.btnExit;
             this.ClientSize = new System.Drawing.Size(434, 343);
+            this.Controls.Add(this.btnCheckUsername);
             this.Controls.Add(this.btnCreateLogin);
             this.Controls.Add(this.lblCurrentDateTime);
             this.Controls.Add(this.lblRowCountLabel);
@@ -257,8 +269,8 @@
             this.Controls.Add(this.tbCnnString);
             this.Controls.Add(this.lblHash);
             this.Controls.Add(this.btnCopy);
-            this.Controls.Add(this.tbPassHash);
-            this.Controls.Add(this.btnCreate);
+            this.Controls.Add(this.tbPasswordHash);
+            this.Controls.Add(this.btnCreateHash);
             this.Controls.Add(this.lblRowCount);
             this.Controls.Add(this.lblServerIP);
             this.Controls.Add(this.Waiting);
@@ -291,8 +303,8 @@
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.Label lblServerIP;
         private System.Windows.Forms.Label lblRowCount;
-        private System.Windows.Forms.Button btnCreate;
-        private System.Windows.Forms.TextBox tbPassHash;
+        private System.Windows.Forms.Button btnCreateHash;
+        private System.Windows.Forms.TextBox tbPasswordHash;
         private System.Windows.Forms.Button btnCopy;
         private System.Windows.Forms.Label lblHash;
         public System.Windows.Forms.TextBox tbPassword;
@@ -301,6 +313,7 @@
         private System.Windows.Forms.Label lblRowCountLabel;
         private System.Windows.Forms.Label lblCurrentDateTime;
         private System.Windows.Forms.Button btnCreateLogin;
+        private System.Windows.Forms.Button btnCheckUsername;
     }
 }
 

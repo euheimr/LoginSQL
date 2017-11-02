@@ -91,7 +91,7 @@ namespace LoginLib
                                         {
                                             Connection = conn,
                                             //update the isLoggedIn field on this selected username
-                                            CommandText = @"UPDATE " + tableName + " SET isLoggedIn=1, [lastLogout]='"+ dateTimeLog +"' WHERE username = '" + pwd + "';",
+                                            CommandText = @"UPDATE " + tableName + " SET isLoggedIn=1, [lastLogout]='"+ dateTimeLog.ToString() +"' WHERE username = '" + username + "';",
                                             CommandTimeout = timeout
                                         };
                                         conn.Close();
@@ -197,7 +197,7 @@ namespace LoginLib
                     }
                     else
                     {
-                        //kinda need to handle stuff here
+                        return false;
                     }
                     
                 }
@@ -239,7 +239,7 @@ namespace LoginLib
         /// <param name="password"></param>
         /// <param name="isLoggedIn"></param>
         /// <param name="timeout"></param>
-        public static void CreateLogin(string tableName, string username, string password, byte isLoggedIn, int timeout = 15)
+        public static void CreateLogin(string tableName, string username, string password, byte isLoggedIn = 0, int timeout = 15)
         {
             try
             {
@@ -320,7 +320,47 @@ namespace LoginLib
             }
         }
 
+        public static bool CheckUsername(string username, int timeout = 15)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(Global.conn))
+                {
+                    using (SqlDataAdapter da = new SqlDataAdapter())
+                    {
+                        conn.Open();
+                        da.SelectCommand = new SqlCommand()
+                        {
+                            Connection = conn,
+                            CommandText = "SELECT username FROM " + Global.tblLogins + " WHERE username='" + username + "';",
+                            CommandTimeout = timeout
+                        };
+                        conn.Close();
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
 
+                        if (dt.Rows.Count == 0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            //don't make a duplicate login
+                            return false;
+                        }
+
+                    }
+                }
+            }
+            catch (SqlException SqlEx)
+            {
+                throw SqlEx;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
 

@@ -141,7 +141,7 @@ namespace LoginSQL
                 if (!String.IsNullOrWhiteSpace(tbPassword.Text))
                 {
                     string pw = tbPassword.Text;
-                    tbPassHash.Text = Hash.GetMD5Hash(pw);
+                    tbPasswordHash.Text = Hash.GetMD5Hash(pw);
                     return;
                 }
                 else
@@ -173,8 +173,8 @@ namespace LoginSQL
                 else
                 {
                     //simulate the hash generation button to be clicked
-                    btnCreate.PerformClick();
-                    Clipboard.SetText(tbPassHash.Text);
+                    btnCreateHash.PerformClick();
+                    Clipboard.SetText(tbPasswordHash.Text);
                 }
 
             } 
@@ -198,8 +198,8 @@ namespace LoginSQL
                 else
                 {
                     var authForm = new frmAuth();
-                    authForm.Show();
-                    
+                    authForm.ShowDialog();
+
                     if (Global.authPass)
                     {
                         DialogResult result;
@@ -214,9 +214,9 @@ namespace LoginSQL
                             if (result == DialogResult.OK)
                             {
                                 //generate the hashed password, then grab the output from PassHash textbox
-                                btnCreate.PerformClick();
+                                btnCreateHash.PerformClick();
                                 //CREATE
-                                Login.CreateLogin(Global.tblLogins, tbUsername.Text.Trim(), tbPassHash.Text.Trim(), 0);
+                                Login.CreateLogin(Global.tblLogins, tbUsername.Text.Trim(), tbPasswordHash.Text.Trim());
                             }
                             else
                             {
@@ -243,6 +243,19 @@ namespace LoginSQL
                 lblStatus.Text = ex.Message;
             }
             
+        }
+
+        private void btnCheckUsername_Click(object sender, EventArgs e)
+        {
+            if (Login.CheckUsername(tbUsername.Text))
+            {
+                //if this method returns true, then the username does not exist in the database.
+                MessageBox.Show("Your username is available!", "Username Check", MessageBoxButtons.OK);
+            }
+            else
+            {
+                MessageBox.Show("Your username is not available.", "Username Check", MessageBoxButtons.OK);
+            }
         }
     }
 }
