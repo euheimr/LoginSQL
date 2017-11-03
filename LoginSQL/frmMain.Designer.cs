@@ -68,6 +68,7 @@
             this.Controls.Add(this.tsStatus);
             this.Controls.Add(this.btnLogout);
             this.Name = "frmMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmMain";
             this.tsStatus.ResumeLayout(false);
             this.tsStatus.PerformLayout();

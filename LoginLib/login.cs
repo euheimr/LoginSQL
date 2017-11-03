@@ -1,4 +1,7 @@
-﻿using System;
+﻿/// Created by Jacob Betz in October 2017
+/// 
+
+using System;
 using System.Data.SqlClient;
 using System.Data;
 using System.Security.Cryptography;
@@ -6,22 +9,25 @@ using AppGlobals;
 using PasswordHash;
 
 ///                 TODO:
-///                 
-/// -Create method to check for existing login
-/// -Add a DateTime parameter for all SQL logins
 /// -Optionally add a message
 /// -Hit [random] button for a random message
 /// -create a filter
-///
-
-
+/// 
+/// DONE:
+/// -Create method to check for existing login
+/// -Add a DateTime parameter for all SQL logins 
+/// 
 namespace LoginLib
 {
     public class Login
     {
-        
-
-        //method for logging into the SQL DB
+        /// <summary>
+        /// For logging into the SQL DB
+        /// </summary>
+        /// <param name="cnnString"></param>
+        /// <param name="loginSelect"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
         public static DataTable GetLogin(string cnnString, string loginSelect, int timeout = 10)
         {
             using (SqlConnection cnn = new SqlConnection(cnnString))
@@ -44,8 +50,15 @@ namespace LoginLib
                 return ds.Tables["GetLogin"];
             }
         }
-
-        //This is for using a username and password on frmLogin.
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cnnString"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="tableName"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
         public static bool SelectLogin(string cnnString, string username, string password, string tableName, int timeout = 15)
         {
             try
@@ -145,16 +158,24 @@ namespace LoginLib
         }
       
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cnnString"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="tableName"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
         public static bool SetLogout(string cnnString, string username, string password, string tableName, int timeout = 15)
         {
-            using (SqlConnection conn = new SqlConnection(cnnString))
-            {
-                using (SqlDataAdapter da = new SqlDataAdapter())
+            try
+            {   
+                using (SqlConnection conn = new SqlConnection(cnnString))
                 {
-                    if (Global.LoggedIn)
+                    using (SqlDataAdapter da = new SqlDataAdapter())
                     {
-                        try
+                        if (Global.LoggedIn)
                         {
                             //makes sure that the username and password matches the data pulled from the DB
                             if (ValidLogin(username, password))
@@ -180,36 +201,45 @@ namespace LoginLib
                             {
                                 return false;
                             }
-                        }
-                        catch (SqlException SqlEx)
-                        {
-                            //send to frmMain
-                            throw SqlEx;
-                        }
 
-                        catch (Exception ex)
+
+                        }
+                        else
                         {
-                            //propagate to the method that calls this method
-                            return Global.LoggedIn;
-                            throw ex;
+                            return false;
                         }
                         
                     }
-                    else
-                    {
-                        return false;
-                    }
-                    
+
                 }
-                
+            }
+            catch (SqlException SqlEx)
+            {
+                //send to frmMain
+                throw SqlEx;
+            }
+
+            catch (Exception ex)
+            {
+                //propagate to the method that calls this method
+                return Global.LoggedIn;
+                throw ex;
+            }
+
+            finally
+            {
+                Global.rowCount = "0";
             }
             
-            Global.rowCount = "0";
-
-            return Global.LoggedIn;
+            
         }
         
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public static bool ValidLogin(string username, string password)
         {
 
@@ -247,20 +277,25 @@ namespace LoginLib
                 {
                     using (SqlDataAdapter da = new SqlDataAdapter())
                     {
-                        
-                        conn.Open();
-                        //RUN IT
-                        da.SelectCommand = new SqlCommand()
+                        if (CheckUsername(username.Trim()))
                         {
-                            Connection = conn,
-                            CommandText = @"INSERT INTO " + tableName + " (username, password, isLoggedIn) VALUES " + "('" + username.Trim() + "'," +
-                            "'" + password.Trim() + "'," + isLoggedIn + ");",
-                            CommandTimeout = timeout
-                        };
-                        DataTable dt = new DataTable();
-                        da.Fill(dt);
-                        
+                            conn.Open();
+                            //RUN IT
+                            da.SelectCommand = new SqlCommand()
+                            {
+                                Connection = conn,
+                                CommandText = @"INSERT INTO " + tableName + " (username, password, isLoggedIn) VALUES " + "('" + username.Trim() + "'," +
+                                "'" + password.Trim() + "'," + isLoggedIn + "); ",
+                                CommandTimeout = timeout
+                            };
+                            DataTable dt = new DataTable();
+                            da.Fill(dt);
+                        }
+                        else
+                        {
 
+                        }
+                        
                     }
                 }
             }
@@ -273,9 +308,6 @@ namespace LoginLib
             {
                 throw ex;
             }
-
-
-
         }
         
 

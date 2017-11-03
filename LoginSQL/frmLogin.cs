@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
@@ -195,8 +194,9 @@ namespace LoginSQL
                     MessageBox.Show("Please enter a username and password in the fields, then click 'Create Login'.");
                     return;
                 }
-                else
+                else if(Login.CheckUsername(tbUsername.Text))
                 {
+
                     var authForm = new frmAuth();
                     authForm.ShowDialog();
 
@@ -211,16 +211,21 @@ namespace LoginSQL
                         else
                         {
                             result = MessageBox.Show("Please confirm your entry: \n\n Username: " + tbUsername.Text + "\n\n Password: " + tbPassword.Text, "Create login", MessageBoxButtons.YesNo);
-                            if (result == DialogResult.OK)
+                            if (result == DialogResult.Yes && Login.CheckUsername(tbUsername.Text))
                             {
                                 //generate the hashed password, then grab the output from PassHash textbox
                                 btnCreateHash.PerformClick();
                                 //CREATE
                                 Login.CreateLogin(Global.tblLogins, tbUsername.Text.Trim(), tbPasswordHash.Text.Trim());
                             }
-                            else
+                            else if(result == DialogResult.No)
                             {
-                                this.Close();
+                                MessageBox.Show("The account was not created.", "CREATE ACCOUNT", MessageBoxButtons.OK);
+                                
+                            }
+                            else if(!Login.CheckUsername(tbUsername.Text))
+                            {
+                                MessageBox.Show("The account was not created. \nThe account with the username of '" + tbUsername.Text + "' currently exists.", "CREATE ACCOUNT", MessageBoxButtons.OK);
                             }
                         }
 
@@ -229,6 +234,10 @@ namespace LoginSQL
                     {
 
                     }
+                }
+                else
+                {
+
                 }
                
             }
@@ -247,14 +256,25 @@ namespace LoginSQL
 
         private void btnCheckUsername_Click(object sender, EventArgs e)
         {
-            if (Login.CheckUsername(tbUsername.Text))
+            try
             {
-                //if this method returns true, then the username does not exist in the database.
-                MessageBox.Show("Your username is available!", "Username Check", MessageBoxButtons.OK);
+                if (Login.CheckUsername(tbUsername.Text))
+                {
+                    //if this method returns true, then the username does not exist in the database.
+                    MessageBox.Show("Your username is available!", "Username Check", MessageBoxButtons.OK);
+                }
+                else
+                {
+                    MessageBox.Show("Your username is not available.", "Username Check", MessageBoxButtons.OK);
+                }
             }
-            else
+            catch (SqlException SqlEx)
             {
-                MessageBox.Show("Your username is not available.", "Username Check", MessageBoxButtons.OK);
+                MessageBox.Show("SQL ERROR:\n" + SqlEx.Message, "SQL ERROR", MessageBoxButtons.OK);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR:\n" + ex.Message, "ERROR", MessageBoxButtons.OK);
             }
         }
     }
