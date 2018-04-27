@@ -1,5 +1,5 @@
-#*A program which uses a form that grabs and compares login credentials to a SQL database.*
-##The server for this program is currently offline
+<h1>A program which uses a form that grabs and compares login credentials to a SQL database.</h1>
+<h2>The server for this program is currently offline</h2>
 
 If the credentials match, the main Form will come up, and prompt the user to log out.
 
