@@ -13,4 +13,4 @@ This also supports login creation on my server. Duplicate usernames are not allo
 
 Currently, there is no real point in "logging in", but it's more of a demonstration of understanding concepts. This was a personal goal of mine.
 
-[<img src="https://github.com/jacobbetz/LoginSQL/blob/master/login.png">]
+<img src="https://github.com/jacobbetz/LoginSQL/blob/master/login.png">
