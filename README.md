@@ -1,4 +1,4 @@
-*A program which uses a form that grabs and compares login credentials to a SQL database.*
+#*A program which uses a form that grabs and compares login credentials to a SQL database.*
 ##The server for this program is currently offline
 
 If the credentials match, the main Form will come up, and prompt the user to log out.
@@ -13,4 +13,4 @@ This also supports login creation on my server. Duplicate usernames are not allo
 
 Currently, there is no real point in "logging in", but it's more of a demonstration of understanding concepts. This was a personal goal of mine.
 
-![main](\login.png)
+[<img src="https://github.com/jacobbetz/LoginSQL/blob/master/login.png">]
