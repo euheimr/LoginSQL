@@ -11,7 +11,7 @@ If successful, frmMain closes and it returns you to the login form.
 
 This also supports login creation on my server. Duplicate usernames are not allowed, and all passwords entered are never sent in plain text to the server, but rather the passwords are all hashed! 
 
-Currently, there is no real point in "logging in", but it's more of a demonstration of understanding concepts. This was a personal goal of mine.
+
 
 <img src="https://github.com/jacobbetz/LoginSQL/blob/master/login.png">
 <img src="https://github.com/jacobbetz/LoginSQL/blob/master/auth.png">
